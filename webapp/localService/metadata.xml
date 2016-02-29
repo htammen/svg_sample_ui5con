@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="NODATASERVER">
+            <EntityType Name="User">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="realm" Type="Edm.String"/>
+                <Property Name="username" Type="Edm.String"/>
+                <Property Name="password" Type="Edm.String"/>
+                <Property Name="email" Type="Edm.String"/>
+                <Property Name="emailVerified" Type="Edm.Boolean"/>
+                <Property Name="verificationToken" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String"/>
+                <Property Name="created" Type="Edm.DateTime"/>
+                <Property Name="lastUpdated" Type="Edm.DateTime"/>
+                <Property Name="id" Type="Edm.Int32"/>
+                <NavigationProperty Name="accessTokens" Relationship="NODATASERVER.User_accessTokens_AccessToken_user" FromRole="User_accessTokens" ToRole="AccessToken_user"/>
+            </EntityType>
+            <EntityType Name="AccessToken">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.String"/>
+                <Property Name="ttl" Type="Edm.Decimal"/>
+                <Property Name="created" Type="Edm.DateTime"/>
+                <Property Name="userId" Type="Edm.Decimal"/>
+                <NavigationProperty Name="user" Relationship="NODATASERVER.User_accessTokens_AccessToken_user" FromRole="AccessToken_user" ToRole="User_accessTokens"/>
+            </EntityType>
+            <EntityType Name="ACL">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="model" Type="Edm.String"/>
+                <Property Name="property" Type="Edm.String"/>
+                <Property Name="accessType" Type="Edm.String"/>
+                <Property Name="permission" Type="Edm.String"/>
+                <Property Name="principalType" Type="Edm.String"/>
+                <Property Name="principalId" Type="Edm.String"/>
+                <Property Name="id" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="RoleMapping">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32"/>
+                <Property Name="principalType" Type="Edm.String"/>
+                <Property Name="principalId" Type="Edm.String"/>
+                <Property Name="roleId" Type="Edm.Decimal"/>
+                <NavigationProperty Name="role" Relationship="NODATASERVER.RoleMapping_role_Role_principals" FromRole="RoleMapping_role" ToRole="Role_principals"/>
+            </EntityType>
+            <EntityType Name="Role">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="description" Type="Edm.String"/>
+                <Property Name="created" Type="Edm.DateTime"/>
+                <Property Name="modified" Type="Edm.DateTime"/>
+                <NavigationProperty Name="principals" Relationship="NODATASERVER.RoleMapping_role_Role_principals" FromRole="Role_principals" ToRole="RoleMapping_role"/>
+            </EntityType>
+            <EntityType Name="Person">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="firstname" Type="Edm.String"/>
+                <Property Name="lastname" Type="Edm.String"/>
+                <Property Name="gender" Type="Edm.String"/>
+                <Property Name="age" Type="Edm.Decimal"/>
+                <Property Name="id" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Customer">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="CompanyName" Type="Edm.String"/>
+                <Property Name="ContactName" Type="Edm.String"/>
+                <Property Name="ContactTitle" Type="Edm.String"/>
+                <Property Name="Address" Type="Edm.String"/>
+                <Property Name="City" Type="Edm.String"/>
+                <Property Name="Region" Type="Edm.String"/>
+                <Property Name="PostalCode" Type="Edm.String"/>
+                <Property Name="Country" Type="Edm.String"/>
+                <Property Name="Phone" Type="Edm.String"/>
+                <Property Name="Fax" Type="Edm.String"/>
+                <Property Name="EMail" Type="Edm.String"/>
+                <Property Name="Rating" Type="Edm.Decimal"/>
+                <Property Name="id" Type="Edm.Int32"/>
+                <NavigationProperty Name="contacts" Relationship="NODATASERVER.Customer_contacts_Contact_customer" FromRole="Customer_contacts" ToRole="Contact_customer"/>
+            </EntityType>
+            <EntityType Name="Contact">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="firstname" Type="Edm.String"/>
+                <Property Name="lastname" Type="Edm.String"/>
+                <Property Name="phone" Type="Edm.String"/>
+                <Property Name="mobile" Type="Edm.String"/>
+                <Property Name="email" Type="Edm.String"/>
+                <Property Name="address" Type="Edm.String"/>
+                <Property Name="id" Type="Edm.Int32"/>
+                <Property Name="customerId" Type="Edm.Decimal"/>
+                <NavigationProperty Name="customer" Relationship="NODATASERVER.Customer_contacts_Contact_customer" FromRole="Contact_customer" ToRole="Customer_contacts"/>
+            </EntityType>
+            <EntityType Name="Product">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="Description" Type="Edm.String"/>
+                <Property Name="ReleaseDate" Type="Edm.DateTime"/>
+                <Property Name="DiscontinuedDate" Type="Edm.DateTime"/>
+                <Property Name="Rating" Type="Edm.Decimal"/>
+                <Property Name="Price" Type="Edm.Decimal"/>
+                <Property Name="CategoryId" Type="Edm.Decimal"/>
+                <Property Name="id" Type="Edm.Int32"/>
+                <NavigationProperty Name="ProductDetails" Relationship="NODATASERVER.Product_ProductDetails_ProductDetail_product" FromRole="Product_ProductDetails" ToRole="ProductDetail_product"/>
+            </EntityType>
+            <EntityType Name="ProductDetail">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="Details" Type="Edm.String"/>
+                <Property Name="productId" Type="Edm.Decimal"/>
+                <Property Name="id" Type="Edm.Int32"/>
+                <NavigationProperty Name="product" Relationship="NODATASERVER.Product_ProductDetails_ProductDetail_product" FromRole="ProductDetail_product" ToRole="Product_ProductDetails"/>
+            </EntityType>
+            <EntityType Name="Category">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="id" Type="Edm.Int32"/>
+                <NavigationProperty Name="Products" Relationship="NODATASERVER.Category_Products_Product_Product" FromRole="Category_Products" ToRole="Product_Product"/>
+            </EntityType>
+            <EntityType Name="Attendee">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="code" Type="Edm.String"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="quantity" Type="Edm.Decimal"/>
+                <Property Name="id" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="NpmjsDownload">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="checkdate" Type="Edm.DateTime"/>
+                <Property Name="quantity" Type="Edm.Decimal"/>
+                <Property Name="quantity_lastweek" Type="Edm.Decimal"/>
+                <Property Name="quantity_lastday" Type="Edm.Decimal"/>
+                <Property Name="annotation" Type="Edm.String"/>
+                <Property Name="id" Type="Edm.Int32"/>
+            </EntityType>
+            <Association Name="User_accessTokens_AccessToken_user">
+                <End Type="NODATASERVER.User" Role="User_accessTokens" Multiplicity="1"/>
+                <End Type="NODATASERVER.AccessToken" Role="AccessToken_user" Multiplicity="*"/>
+            </Association>
+            <Association Name="RoleMapping_role_Role_principals">
+                <End Type="NODATASERVER.RoleMapping" Role="RoleMapping_role" Multiplicity="*"/>
+                <End Type="NODATASERVER.Role" Role="Role_principals" Multiplicity="1"/>
+            </Association>
+            <Association Name="Customer_contacts_Contact_customer">
+                <End Type="NODATASERVER.Customer" Role="Customer_contacts" Multiplicity="1"/>
+                <End Type="NODATASERVER.Contact" Role="Contact_customer" Multiplicity="*"/>
+            </Association>
+            <Association Name="Product_ProductDetails_ProductDetail_product">
+                <End Type="NODATASERVER.Product" Role="Product_ProductDetails" Multiplicity="1"/>
+                <End Type="NODATASERVER.ProductDetail" Role="ProductDetail_product" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="Category_Products_Product_Product">
+                <End Type="NODATASERVER.Category" Role="Category_Products" Multiplicity="0..1"/>
+                <End Type="NODATASERVER.Product" Role="Product_Product" Multiplicity="*"/>
+            </Association>
+            <EntityContainer Name="NODATASERVER" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="Users" EntityType="NODATASERVER.User"/>
+                <EntitySet Name="AccessTokens" EntityType="NODATASERVER.AccessToken"/>
+                <EntitySet Name="ACLs" EntityType="NODATASERVER.ACL"/>
+                <EntitySet Name="RoleMappings" EntityType="NODATASERVER.RoleMapping"/>
+                <EntitySet Name="Roles" EntityType="NODATASERVER.Role"/>
+                <EntitySet Name="People" EntityType="NODATASERVER.Person"/>
+                <EntitySet Name="Customers" EntityType="NODATASERVER.Customer"/>
+                <EntitySet Name="Contacts" EntityType="NODATASERVER.Contact"/>
+                <EntitySet Name="Products" EntityType="NODATASERVER.Product"/>
+                <EntitySet Name="ProductDetails" EntityType="NODATASERVER.ProductDetail"/>
+                <EntitySet Name="Categories" EntityType="NODATASERVER.Category"/>
+                <EntitySet Name="Attendees" EntityType="NODATASERVER.Attendee"/>
+                <EntitySet Name="NpmjsDownloads" EntityType="NODATASERVER.NpmjsDownload"/>
+                <AssociationSet Name="User_accessTokens_AccessToken" Association="NODATASERVER.User_accessTokens_AccessToken_user">
+                    <End Role="User_accessTokens" EntitySet="Users"/>
+                    <End Role="AccessToken_user" EntitySet="AccessTokens"/>
+                </AssociationSet>
+                <AssociationSet Name="RoleMapping_role_Role" Association="NODATASERVER.RoleMapping_role_Role_principals">
+                    <End Role="RoleMapping_role" EntitySet="RoleMappings"/>
+                    <End Role="Role_principals" EntitySet="Roles"/>
+                </AssociationSet>
+                <AssociationSet Name="Customer_contacts_Contact" Association="NODATASERVER.Customer_contacts_Contact_customer">
+                    <End Role="Customer_contacts" EntitySet="Customers"/>
+                    <End Role="Contact_customer" EntitySet="Contacts"/>
+                </AssociationSet>
+                <AssociationSet Name="Product_ProductDetails_ProductDetail" Association="NODATASERVER.Product_ProductDetails_ProductDetail_product">
+                    <End Role="Product_ProductDetails" EntitySet="Products"/>
+                    <End Role="ProductDetail_product" EntitySet="ProductDetails"/>
+                </AssociationSet>
+                <AssociationSet Name="Category_Products_Product" Association="NODATASERVER.Category_Products_Product_Product">
+                    <End Role="Category_Products" EntitySet="Categories"/>
+                    <End Role="Product_Product" EntitySet="Products"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

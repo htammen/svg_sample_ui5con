@@ -1,0 +1,24 @@
+<mvc:View
+	controllerName="de.tammenit.svg.ui5con.controller.Object"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:em="de.tammenit.svg.ui5con.controls"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:footerbar="sap.ushell.ui.footerbar">
+
+	<semantic:FullscreenPage
+		id="page"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="{i18n>objectTitle}"
+		busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+			<em:Euromap id="euromap" title="Euromap" subTitle="UI5Con" dataPath="/Attendees"></em:Euromap>
+ 		</semantic:content>
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

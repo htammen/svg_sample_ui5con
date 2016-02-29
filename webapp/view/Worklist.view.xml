@@ -1,0 +1,85 @@
+<mvc:View
+	controllerName="de.tammenit.svg.ui5con.controller.Worklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar">
+
+	<semantic:FullscreenPage
+		id="page"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="{i18n>worklistViewTitle}">
+		<semantic:content>
+			<Table
+				id="table"
+				width="auto"
+				class="sapUiResponsiveMargin"
+				items="{
+					path: '/Attendees',
+					sorter: {
+						path: 'name',
+						descending: false
+						}
+					}"
+				noDataText="{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished="onUpdateFinished">
+
+				<headerToolbar>
+					<Toolbar id="toolbar">
+						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+						<ToolbarSpacer />
+						<SearchField
+							id="searchField"
+							tooltip="{i18n>worklistSearchTooltip}"
+							search="onSearch"
+							width="auto">
+						</SearchField>
+					</Toolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column id="codeColumn">
+						<Text text="ISO 3166-2 code" id="codeColumnTitle"/>
+					</Column>
+					<Column id="nameColumn">
+						<Text text="Country" id="nameColumnTitle"/>
+					</Column>
+					<Column
+						hAlign="Center"
+						width="12em"
+						minScreenWidth="Tablet"
+						demandPopin="false">
+						<Text text="Quantity" />
+					</Column>
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Inactive">
+						<cells>
+							<ObjectIdentifier title="{code}"/>
+							<Text text="{name}"/>
+							<Input value="{quantity}" type="{Number}" description="{UoM}" fieldWidth="{60%}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+
+			</Table>
+
+		</semantic:content>
+
+		<semantic:saveAction>
+			<semantic:SaveAction press="onSave"/>
+		</semantic:saveAction>
+		<semantic:forwardAction>
+			<semantic:ForwardAction press="onShowGraph"/>
+		</semantic:forwardAction>
+		
+	</semantic:FullscreenPage>
+
+
+</mvc:View>
