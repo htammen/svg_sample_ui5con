@@ -1,10 +1,10 @@
 {
   "run": [
     {
-      "filePath": "/svg_sample_ui5con_test/webapp/test/testFLP.html",
+      "filePath": "/webapp/test/testFLP.html",
       "previewMode": 1,
       "dataMode": 1,
-      "workspace": "withoutWorkspace",
+      "workspace": "withWorkspace",
       "urlParameters": [
         {
           "paramName": "",
@@ -18,9 +18,15 @@
         }
       ],
       "hashParameter": "UI5ConAttendees-display",
-      "ui5ActiveVersion": null,
+      "ui5ActiveVersion": "1.34.8",
       "ui5VerSource": null,
       "isDefaultVersion": 1,
+      "backendSystem": [
+        {
+          "source": "n-odata-server-example-cloud9",
+          "destinations": "n-odata-server-example-cloud9"
+        }
+      ],
       "_metadata": {
         "id": 1978925,
         "runnerId": "webapprunner",
