@@ -1,0 +1,35 @@
+{
+    "application": {
+        "id": "",
+        "title": "svg_sample_ui5con",
+        "description": "SVG Example Application for UI5Con 2016",
+        "type": "SAP_UI5_Component",
+        "componentUrl": "/",
+        "appUrl": "#svg_sample_ui5con-Display",
+        "navigationComponentName": "de.tammenit.svg.ui5con",
+        "intentSemanticObject": "svg_sample_ui5con",
+        "intentAction": "Display",
+        "html5ApplicationName": "svgsampleui5con",
+        "HCPParentApplicationName": ""
+    },
+    "assignment": {
+        "groups": [
+            "50982fbf-c932-466e-b374-b1c61fc005b3-1455275094962"
+        ],
+        "contentPackages": [
+            "887d7766-81fc-4ec3-8732-f3717065d0fb-1426862737729"
+        ],
+        "categories": []
+    },
+    "tile": {
+        "type": "StaticTile",
+        "title": "UI5Con 2016",
+        "subtitle": "Attendees at UI5Con",
+        "searchKeywords": "UI5Con 2016,Attendees at UI5Con",
+        "displayIconUrl": "sap-icon://globe",
+        "displayInfoText": "",
+        "size": "1x1",
+        "serviceURL": "",
+        "refreshInterval": ""
+    }
+}

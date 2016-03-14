@@ -6,12 +6,6 @@ sap.ui.define(["sap/ui/layout/VerticalLayout"], function(Control) {
 	 */
 	return Control.extend("de.tammenit.svg.ui5con.controls.Euromap", (function() {
 		var that;
-		/** contains the data that has to be rendered */
-		var chartData;
-
-		function init() {
-			that = this;
-		}
 
 		/**
 		 * Provides the properties and events of the control DataTile
@@ -26,15 +20,25 @@ sap.ui.define(["sap/ui/layout/VerticalLayout"], function(Control) {
 					"subTitle": {
 						type: "string",
 						defaultValue: ""
-					},
-					"dataPath": {
-						type: "string"
 					}
+				},
+				aggregations: {
+					// html-control as container for the SVG control 
+					_html: {type: "sap.ui.core.HTML", multiple: false, visibility: "hidden"},
+					// data aggregation storing the data-binding of this control
+					data : { type : "sap.ui.core.Element" }
 				},
 				events: {}
 			};
 		}
 		
+		function init() {
+			that = this;
+			// create _html control as aggregation
+			this._sContainerId = this.getId() + "--container";
+			this.setAggregation("_html", new sap.ui.core.HTML({ content : "<div id='" + this._sContainerId + "' class='sapUiSmallMargin'></div>" }));
+		}
+
 		/**
 		 * Renders the control based on the properties.
 		 *
@@ -42,32 +46,15 @@ sap.ui.define(["sap/ui/layout/VerticalLayout"], function(Control) {
 		 * @param oControl
 		 */
 		function renderer(oRm, oControl) {
-			oRm.write("<h2>" + oControl.getTitle() + "</h2>");
-			oRm.write("<h3>" + oControl.getSubTitle() + "</h2>");
+			oRm.write("<h2 style='text-align:center'>" + oControl.getTitle() + "</h2>");
+			oRm.write("<h3 style='text-align:center'>" + oControl.getSubTitle() + "</h2>");
 
-			oRm.write('<div id="euromapContainer" class="sapUiSmallMargin">');
-			var modulePath = jQuery.sap.getModulePath("de.tammenit.svg.ui5con.svg");
-			var oSVG = jQuery.sap.syncGetText(modulePath + "/europemap.svg");
-			oRm.write(oSVG.data);
+			// render the _html container control
+			oRm.renderControl(oControl.getAggregation("_html"));
 			// Creative common License of the graphic
 			oRm.write('<div style="font-size:9px;">Graphic by <a href="https://commons.wikimedia.org/wiki/User:Amibreton" target="blank">Amibreton</a>, ' +
 						'License: <a href="https://creativecommons.org/licenses/by-sa/2.5/deed.en" target="blank">CC by-sa-2.5</a>, ' +
 						'you can find the original <a href="https://commons.wikimedia.org/wiki/File:Blank_map_of_Europe_EU27_iso3166-1_code.svg" target="blank">here</a><div>');
-			oRm.write('</div>');
-		
-			// After the static svg part has been created read the data from the OData service and expand the SVG	
-			oControl.getModel().read(
-				oControl.getDataPath(), {
-					success: function(_readData) {
-						oControl.chartData = _readData;
-						that._renderSVG();
-					},
-					error: function(err) {
-						console.log(err);
-					}
-				}
-			);
-			
 		}
 
 		/**
@@ -81,31 +68,61 @@ sap.ui.define(["sap/ui/layout/VerticalLayout"], function(Control) {
 				.domain([0, 1, 2, 3, 5, 10, 20, 50]) // change color at this values
 				.range(range);
 
+			// read the data from databinding into a flat array
+			var chartData = this.getBinding("data").getContexts().map(function(oContext) {
+				return oContext.getObject();
+			});
 			// set the color and tooltip for each country in the chartData read from the backend 
-			this.chartData.results.forEach(function(country) {
+			chartData.forEach(function(country) {
 				var countryTag = d3.select("#" + country.code);
-			 	countryTag.style("fill", "#CDCDCD")   // set fill color of the country initially to gray
-			 				// change the color slowly to the color that corresponds to the quantity (Wow!!!) 
-			 				.transition().duration(5000).style("fill", colorScale(country.quantity)) 
-		 					.style("stroke", "black"); // the border is painted in black
-
-				// set a tooltip for each country		 		
-				countryTag.selectAll("title").data([1])
-					.enter()
-						.append("title")
-							.text(country.quantity + " fellows from " + country.name + " are here.");
-
-				// 
-			 	if(country.quantity === 0) {
-			 		countryTag.style("opacity", 1) 
+				if(country.quantity != 0) {
+				 	countryTag.style("fill", "#CDCDCD")   // set fill color of the country initially to gray
+				 				// change the color slowly to the color that corresponds to the quantity (Wow!!!) 
+				 				.transition().duration(5000).style("fill", colorScale(country.quantity)) 
+					 			.style("opacity", 1.0)
+			 					.style("stroke", "black"); // the border is painted in black
+				} else {
+					// set opacity of background color to 20% if no attendee is there for a country
+			 		countryTag.style("opacity", 1)
+			 					.style("fill", "#CDCDCD")
 			 					.style("stroke", "white")
 						 		.transition().duration(5000)
 						 			.style("opacity", 0.2)
 						 			.style("stroke", "black"); 
-			 	}
+				}
+				// set a tooltip for each country		 		
+				var countrySel = countryTag.selectAll("title").data([1]);
+				
+				countrySel.enter()
+						.append("title");
+				countrySel.text(country.quantity + " fellows from " + country.name + " are here.");
 			});
 		}
 
+		function onAfterRendering() {
+
+			// if no svg-element currently exists we load the svg from a file and
+			// add it to html-container.
+			if(d3.select("svg").empty()) {
+				// load the svg
+				var modulePath = jQuery.sap.getModulePath("de.tammenit.svg.ui5con.svg");
+				var oSVG = jQuery.sap.syncGetText(modulePath + "/europemap.svg");
+				var domSVG = jQuery(oSVG.data);
+				// ... and append it to the html container control
+				d3.select("#" + this._sContainerId)
+					.node().appendChild(domSVG[domSVG.length-1]);
+
+				// watch the change event of the data-binding and call the _renderSVG function
+				// on change
+				this.getBinding("data").attachChange(function() {
+					that._renderSVG();	
+				});
+			}
+			
+			_setControlHeight();
+			jQuery(window).resize(_setControlHeight);
+		}
+		
 		/**
 		 * Sets the height of the control to the height of the window - 250.
 		 * The new height is set at the #plantViewContainer div element that wraps the svg graphic
@@ -113,13 +130,10 @@ sap.ui.define(["sap/ui/layout/VerticalLayout"], function(Control) {
 		 */
 		function _setControlHeight() {
 			var newHeight = jQuery(window).height() - 250;
-			jQuery('#euromapContainer').height(newHeight);
+			jQuery('#' + that._sContainerId).height(newHeight);
 		}
 
-		function onAfterRendering() {
-			_setControlHeight();
-			jQuery(window).resize(_setControlHeight);
-		}
+		
 		return {
 			init: init,
 			metadata: getMetadata(),

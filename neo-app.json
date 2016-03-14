@@ -37,12 +37,28 @@
       "description": "SAPUI5 Test Resources"
     },
     {
-      "path": "/destinations/n-odata-server-example-cloud9",
+      "path": "/destinations/n-odata-server-example",
       "target": {
         "type": "destination",
-        "name": "n-odata-server-example-cloud9"
+        "name": "n-odata-server-example-bluemix_cf"
       },
       "description": "n-odata-server-example-cloud9"
+    }
+  ],
+  "cacheControl": [
+    {
+      "directive": "private",
+      "maxAge": 0,
+      "path": "*html"
+    },
+    {
+      "directive": "private",
+      "maxAge": 0,
+      "path": "sap-ui-cachebuster-info.json"
+    },
+    {
+      "directive": "public",
+      "maxAge": 31536000
     }
   ]
 }

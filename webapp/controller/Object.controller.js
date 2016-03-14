@@ -76,7 +76,6 @@ sap.ui.define([
 			 */
 			_onObjectMatched : function (oEvent) {
 				this.getModel("objectView").setProperty("/busy", false);
-				this.getView().rerender();
 			}
 
 		});

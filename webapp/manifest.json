@@ -12,7 +12,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "/destinations/n-odata-server-example-cloud9/odata/",
+				"uri": "/destinations/n-odata-server-example",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
@@ -144,5 +144,9 @@
 				}
 			}
 		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.1.0"
 	}
 }
