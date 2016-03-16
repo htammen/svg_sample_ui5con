@@ -74,9 +74,6 @@
 		"resources": {
 			"js": [
 				{
-					"uri": "js/d3.min.js"
-				},
-				{
 					"uri": "js/colorbrewer.js"
 				}
 			]

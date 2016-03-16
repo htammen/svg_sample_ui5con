@@ -75,6 +75,17 @@ sap.ui.define([
 			 * @private
 			 */
 			_onObjectMatched : function (oEvent) {
+				this.getView().byId('euromap').setLicense({
+					preText: "Graphic by",
+					owner: "Amibreton",
+					ownerLink: "https://commons.wikimedia.org/wiki/User:Amibreton",
+					licenseLink: "https://creativecommons.org/licenses/by-sa/2.5/deed.en",
+					licenseText: "CC by-sa-2.5",
+					srcPreText: "you can find the original",
+					srcLink: "https://commons.wikimedia.org/wiki/File:Blank_map_of_Europe_EU27_iso3166-1_code.svg",
+					srcText: "here"
+				});
+				
 				this.getModel("objectView").setProperty("/busy", false);
 			}
 

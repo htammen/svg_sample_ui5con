@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.m.semantic"
-	xmlns:em="de.tammenit.svg.ui5con.controls"
+	xmlns:em="de.tammenit.controls.svg"
 	xmlns:core="sap.ui.core"
 	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:footerbar="sap.ushell.ui.footerbar">
@@ -17,11 +17,25 @@
 		busyIndicatorDelay="{objectView>/delay}">
 
 		<semantic:content>
-			<em:Euromap id="euromap" title="Euromap" subTitle="UI5Con" data="{path: '/Attendees'}">
+			<em:Map id="euromap" 
+				title="Euromap" 
+				subTitle="UI5Con" 
+				colorpalette="Oranges"
+				colorChangeValues="0, 1, 2, 3, 5, 10, 20, 50"
+				svgFileName="svg/europemap.svg"
+				codePropertyName="code"
+				quantityPropertyName="quantity"
+				descriptionPropertyName="name"
+				standardFillColor="#CDCDCD"
+				tooltipText1=""
+				tooltipText2=" people from "
+				tooltipText3=" are with us."
+				data="{path: '/Attendees'}"
+			>
 				<em:data>
 					<core:Element></core:Element>
 				</em:data>
-			</em:Euromap>
+			</em:Map>
  		</semantic:content>
 
 	</semantic:FullscreenPage>

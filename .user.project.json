@@ -2,7 +2,7 @@
   "run": [
     {
       "filePath": "/webapp/test/testFLP.html",
-      "previewMode": 1,
+      "previewMode": 0,
       "dataMode": 1,
       "workspace": "withWorkspace",
       "urlParameters": [
