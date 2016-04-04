@@ -32,10 +32,6 @@ sap.ui.define([
 
 				// create the views based on the url/hash
 				this.getRouter().initialize();
-				
-				// Register the module path for the svg control
-				var modulePath = jQuery.sap.getModulePath(this.getManifestObject().getComponentName());
-				jQuery.sap.registerModulePath("de.tammenit.controls.svg", modulePath + "/controls/svg"); 
 			},
 
 			/**
